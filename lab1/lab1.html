@@ -7,24 +7,26 @@
 </head>
 
 <body>
-    <input id="numberOne" type="number" placeholder="0">
-    <input id="numberTwo" type="number" placeholder="0">
-    <input id="numberThree" type="number" placeholder="0">
-    <input id="numberFour" type="number" placeholder="0">
+    <div id="inputs">
+        <input type="number" placeholder="0">
+        <input type="number" placeholder="0">
+        <input type="number" placeholder="0">
+    </div>
 
+    <button id="dodaj" onclick="dodajPole();">Dodaj Pole</button>
     <button id="przelicz" onclick="przelicz();">Przelicz</button>
 
     <div id="results">
-        <span id="suma" class="result">Suma: 
+        <span id="suma" class="result">Suma:
             <span></span>
         </span>
-        <span id="srednia" class="result">Średnia: 
+        <span id="srednia" class="result">Średnia:
             <span></span>
         </span>
-        <span id="min" class="result">Min: 
+        <span id="min" class="result">Min:
             <span></span>
         </span>
-        <span id="max" class="result">Max: 
+        <span id="max" class="result">Max:
             <span></span>
         </span>
     </div>
