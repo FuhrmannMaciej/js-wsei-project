@@ -3,13 +3,20 @@ let srednia = document.querySelector("#srednia")
 let min = document.querySelector("#min")
 let max = document.querySelector("#max")
 
-
+let numberOne = document.querySelector("#numberOne")
+numberOne.addEventListener('input', przelicz)
+let numberTwo = document.querySelector("#numberTwo")
+numberTwo.addEventListener('input', przelicz)
+let numberThree = document.querySelector("#numberThree")
+numberThree.addEventListener('input', przelicz)
+let numberFour = document.querySelector("#numberFour")
+numberFour.addEventListener('input', przelicz)
 
 function przelicz() {
-    let a = parseInt(document.querySelector("#numberOne").value);
-    let b = parseInt(document.querySelector("#numberTwo").value);
-    let c = parseInt(document.querySelector("#numberThree").value);
-    let d = parseInt(document.querySelector("#numberFour").value);
+    let a = parseInt(numberOne.value)
+    let b = parseInt(numberTwo.value)
+    let c = parseInt(numberThree.value)
+    let d = parseInt(numberFour.value)
 
     a = a || 0
     b = b || 0
