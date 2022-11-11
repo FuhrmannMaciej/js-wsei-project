@@ -3,20 +3,31 @@
 
 <head>
     <title>Lab 1</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <input id="numberOne">
-    <input id="numberTwo">
-    <input id="numberThree">
-    <input id="numberFour">
+    <input id="numberOne" type="number" placeholder="0">
+    <input id="numberTwo" type="number" placeholder="0">
+    <input id="numberThree" type="number" placeholder="0">
+    <input id="numberFour" type="number" placeholder="0">
 
     <button id="przelicz" onclick="przelicz();">Przelicz</button>
 
-    <span id="suma">Suma: </span>
-    <span id="srednia">Średnia: </span>
-    <span id="min">Min: </span>
-    <span id="max">Max: </span>
+    <div id="results">
+        <span id="suma" class="result">Suma: 
+            <span></span>
+        </span>
+        <span id="srednia" class="result">Średnia: 
+            <span></span>
+        </span>
+        <span id="min" class="result">Min: 
+            <span></span>
+        </span>
+        <span id="max" class="result">Max: 
+            <span></span>
+        </span>
+    </div>
 
     <script src="script.js"></script>
 
