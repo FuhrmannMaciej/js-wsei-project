@@ -9,19 +9,25 @@
 </head>
 
 <body>
-    <div id="slider">
-        <div class="slides">
-            <img class="slide" src="./photo.jpg" />
-            <img class="slide" src="./photo2.jpg" />
-            <img class="slide" src="./photo.jpg" />
-            <img class="slide" src="./photo2.jpg" />
-            <img class="slide" src="./photo.jpg" />
-            <img class="slide" src="./photo2.jpg" />
+    <div class="slider">
+        <div class="imgs">
+            <div class="img" style="left: 0;">
+                <span>Image 1</span>
+            </div>
+            <div class="img">
+                <span>Image 2</span>
+            </div>
+            <div class="img">
+                <span>Image 3</span>
+            </div>
+            <div class="img">
+                <span>Image 4</span>
+            </div>
         </div>
         <a class="slider-btn previous" onclick="setSlides(-1)">❮</a>
         <a class="slider-btn next" onclick="setSlides(1)">❯</a>
+        <div class="dots"></div>
     </div>
-    <div class="dots"></div>
     <script src="script.js"></script>
 </body>
 
