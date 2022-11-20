@@ -2,3 +2,7 @@
   display: block;
   margin-top: 10px;
 }
+
+#inputs input{
+  margin: 5px;
+}

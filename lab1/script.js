@@ -1,51 +1,72 @@
-let suma = document.querySelector("#suma")
-let srednia = document.querySelector("#srednia")
+let sum = document.querySelector("#sum")
+let avg = document.querySelector("#avg")
 let min = document.querySelector("#min")
 let max = document.querySelector("#max")
 
 let inputContainer = document.querySelector("#inputs")
+addField()
+addField()
+addField()
 
-let numberOne = document.querySelector("#number1")
-numberOne.addEventListener('input', przelicz)
-let numberTwo = document.querySelector("#number2")
-numberTwo.addEventListener('input', przelicz)
-let numberThree = document.querySelector("#number3")
-numberThree.addEventListener('input', przelicz)
-let numberFour = document.querySelector("#numberFour")
-numberFour.addEventListener('input', przelicz)
+function calculate() {
+    let valuesArr = getAllInputValues()
 
-function przelicz() {
-    let a = parseInt(numberOne.value)
-    let b = parseInt(numberTwo.value)
-    let c = parseInt(numberThree.value)
-    let d = parseInt(numberFour.value)
-
-    a = a || 0
-    b = b || 0
-    c = c || 0
-    d = d || 0
-
-    suma.querySelector("span").innerText = a + b + c + d
-    srednia.querySelector("span").innerText = (a + b + c + d) / 4
-    min.querySelector("span").innerText = Math.min(a, b, c, d)
-    max.querySelector("span").innerText = Math.max(a, b, c, d)
+    sum.querySelector("span").innerText = calcSum(valuesArr)
+    avg.querySelector("span").innerText = calcAvg(valuesArr)
+    min.querySelector("span").innerText = Math.min(...valuesArr)
+    max.querySelector("span").innerText = Math.max(...valuesArr)
 }
 
-function calcSuma(...args) {
-    return args.reduce(function (a, b) {
-        return a + b
+function calcSum(array) {
+    let sum = 0
+    array.forEach(item => {
+        sum += item
     })
+
+    return sum
 }
 
-function calcSrednia(...args) {
-    let length = args.length
-    return calcSuma(args) / length
+function calcAvg(array) {
+    let length = array.length
+    return (calcSum(array)) / length
 }
 
-function dodajPole() {
+function addField() {
+    let divInput = document.createElement("div")
     let input = document.createElement("input")
     input.type = "number"
     input.placeholder = "0"
 
-    inputContainer.appendChild(input)
+    let removeBtn = document.createElement("button")
+    removeBtn.innerText = "x"
+    removeBtn.onclick = remove
+
+    input.addEventListener('input', calculate)
+
+    inputContainer.appendChild(divInput)
+    divInput.appendChild(input)
+    divInput.appendChild(removeBtn)
+    calculate()
+}
+
+function remove() {
+    this.parentNode.remove();
+    calculate()
+}
+
+function getAllInputValues() {
+    const inputArray = inputContainer.querySelectorAll("input")
+    let inputValues = []
+    if(inputArray.length === 0) {
+        inputValues = [0]
+        return inputValues
+    }
+
+    Array.from(inputArray).forEach(input => {
+        let temp = parseInt(input.value)
+        temp = temp || 0
+        inputValues.push(temp)
+    })
+
+    return inputValues
 }
