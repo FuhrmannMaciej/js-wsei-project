@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lab 3</title>
 </head>
+
 <body>
     <audio src="./sounds/clap.wav" controls id="s1"></audio>
     <audio src="./sounds/hihat.wav" controls id="s2"></audio>
@@ -13,7 +15,18 @@
     <audio src="./sounds/tom.wav" controls id="s5"></audio>
     <audio src="./sounds/boom.wav" controls id="s6"></audio>
 
-    <button onclick="record('a1')" id="a1">Audio 1</button>
+    <div>
+        <input type="radio" id="a1" class="recording" name="audio" checked>Audio 1</button>
+        <input type="radio" id="a2" class="recording" name="audio">Audio 2</button>
+        <input type="radio" id="a3" class="recording" name="audio">Audio 3</button>
+        <input type="radio" id="a4" class="recording" name="audio">Audio 4</button>
+    </div>
+
+    <button onclick="toggleRecord()" id="toggleRecord">Record</button>
+    <button onclick="playRecording()" id="playRecording">Play</button>
+    <button onclick="playAll()" id="playAll">Play All</button>
+
     <script src="script.js"></script>
-</body> 
+</body>
+
 </html>
