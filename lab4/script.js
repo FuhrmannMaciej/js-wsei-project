@@ -1,4 +1,4 @@
-let notesContainer = document.querySelector("#notes")
+let container = document.querySelector("#container")
 
 class Note {
 
@@ -28,10 +28,12 @@ function addNote() {
 
     let title = document.createElement("input")
     title.className = "title"
+    title.placeholder = "Title"
     let content = document.createElement("input")
     content.className = "content"
+    content.placeholder = "Content"
 
-    notesContainer.appendChild(note)
+    container.appendChild(note)
     note.appendChild(title)
     note.appendChild(content)
 }
