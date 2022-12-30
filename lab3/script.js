@@ -11,13 +11,13 @@ const recordButton = document.querySelector('#toggleRecord')
 const audioRecordings = document.querySelectorAll('.recording')
 
 let recordingStartTime
-let songNotes
+let songNotes = []
 let selectedAudio
 
-let audioStorageOne
-let audioStorageTwo
-let audioStorageThree
-let audioStorageFour
+let audioStorageOne = []
+let audioStorageTwo = []
+let audioStorageThree = []
+let audioStorageFour = []
 
 
 const KeyToSound = {
@@ -66,14 +66,37 @@ function startRecording() {
 }
 
 function stopRecording() {
-    let storage = chooseStorage(selectedAudio) 
-    storage = Array.from(songNotes)
-    console.log(songNotes)
-    console.log(audioStorageOne)
+    saveToStorage()
 }
 
-function chooseStorage(storage) {
-    switch (storage) {
+function playRecording() {
+    isAudioRecordingChecked()
+    let storage = chooseStorage()
+    if (storage.length === 0) return
+    storage.forEach(note => {
+      setTimeout(() => {
+        playSound(note.key)
+      }, note.startTime)
+    })
+  }
+
+  function playAll() {
+    let allAudio = [
+        ...audioStorageOne, 
+        ...audioStorageTwo, 
+        ...audioStorageThree, 
+        ...audioStorageFour
+    ]
+    if (allAudio.length === 0) return
+    allAudio.forEach(note => {
+      setTimeout(() => {
+        playSound(note.key)
+      }, note.startTime)
+    })
+  }
+
+function chooseStorage() {
+    switch (selectedAudio) {
         case "a1":
             return audioStorageOne
         case "a2":
@@ -82,6 +105,26 @@ function chooseStorage(storage) {
             return audioStorageThree
         case "a4":
             return audioStorageFour
+
+        default:
+            break;
+    }
+}
+
+function saveToStorage() {
+    switch (selectedAudio) {
+        case "a1":
+            audioStorageOne = Array.from(songNotes)
+            break;
+        case "a2":
+            audioStorageTwo = Array.from(songNotes)
+            break;
+        case "a3":
+            audioStorageThree = Array.from(songNotes)
+            break;
+        case "a4":
+            audioStorageFour = Array.from(songNotes)
+            break;
 
         default:
             break;
