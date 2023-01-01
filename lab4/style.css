@@ -59,3 +59,7 @@
   overflow: hidden;
   outline: none;
 }
+
+.pinnedBtn.active {
+  transform: rotate(45deg);
+}

@@ -1,5 +1,6 @@
-let container = document.querySelector("#container")
-let addNoteButton = document.querySelector('#btnAddNote')
+const container = document.querySelector("#container")
+const addNoteButton = document.querySelector('#btnAddNote')
+const togglePinnedBtn = document.querySelector(".pinnedBtn")
 
 class Note {
 
@@ -82,7 +83,7 @@ function createNoteElement(id, title, content, color) {
   pinnedBtn.appendChild(pinnedIcon)
 
   pinnedBtn.addEventListener("click", () => {
-    pinNote(id)
+    togglePinned(id)
   })
 
   note.addEventListener("change", () => {
@@ -118,17 +119,33 @@ function deleteNote(id, element) {
   container.removeChild(element);
 }
 
-function pinNote(id) {
+function togglePinned(id) {
   const notes = getNotes();
   const targetNote = notes.filter((note) => note.id == id)[0];
+  let index;
+
+  for (let i = 0; i < notes.length; i++) {
+    if (notes[i].id === id) {
+      index = i
+      break;
+    }
+  }
   
+  const firstNote = document.querySelectorAll(".note")[0]
+  const pinnedNote = document.querySelectorAll(".note")[index]
+  const pinnedNotePinBtn = pinnedNote.querySelector(".pinnedBtn")
+
+  pinnedNotePinBtn.classList.toggle('active')
   if (targetNote.isPinned) {
     targetNote.isPinned = false
+    container.insertBefore(pinnedNote, addNoteButton);
+    notes.push(notes.splice(index,1)[0])
   } else {
     targetNote.isPinned = true
+    container.insertBefore(pinnedNote, firstNote)
+    notes.splice(index, 1)
+    notes.unshift(targetNote)
   }
-
-  container.insertBefore(targetNote, notes[0])
 
   saveNotes(notes);
 }
