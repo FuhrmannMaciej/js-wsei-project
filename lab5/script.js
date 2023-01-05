@@ -20,14 +20,22 @@ async function addAll(...args) {
 }
 
 async function measureExecutionTime(callback) {
+  let asyncOperations = 0;
   const startTime = performance.now();
+  const originalThen = Promise.prototype.then;
+  Promise.prototype.then = function () {
+    asyncOperations++;
+    return originalThen.apply(this, arguments);
+  }
   await callback();
+  Promise.prototype.then = originalThen;
   const endTime = performance.now();
   const elapsedTime = endTime - startTime;
   console.log(`Execution time: ${elapsedTime}ms`);
+  console.log(`Async operations: ${asyncOperations}`);
 }
 
-measureExecutionTime( async () => {
+measureExecutionTime(async () => {
   await addAll(41, 7, 84, 41, 28, 100, 2, 22, 16, 37, 45, 82, 72, 38, 18, 43, 48,
     4, 14, 69, 99, 13, 30, 36, 77, 66, 69, 61, 89, 74, 77, 29, 37, 5, 61, 99, 32, 87, 62,
     57, 26, 75, 12, 62, 52, 5, 24, 67, 39, 28, 57, 3, 26, 12, 58, 35, 92, 27, 65, 99, 58, 79, 20, 79,
