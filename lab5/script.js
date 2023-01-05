@@ -10,12 +10,24 @@ const asyncAdd = async (a, b) => {
 }
 
 async function addAll(...args) {
-  let result = 0;
-
-  for (let i = 0; i < args.length; i += 2) {
-    result += await asyncAdd(args[i], args[i + 1]);
+  const chunkSize = 10;
+  const chunkedArgs = [];
+  for (let i = 0; i < args.length; i += chunkSize) {
+    chunkedArgs.push(args.slice(i, i + chunkSize));
   }
 
+  const chunkResults = await Promise.all(
+    chunkedArgs.map(chunk => addChunk(chunk))
+  );
+
+  return chunkResults.reduce((total, result) => total + result, 0);
+}
+
+async function addChunk(chunk) {
+  let result = 0;
+  for (let i = 0; i < chunk.length; i += 2) {
+    result += await asyncAdd(chunk[i], chunk[i + 1]);
+  }
   return result;
 }
 
