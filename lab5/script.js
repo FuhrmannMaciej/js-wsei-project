@@ -1,15 +1,15 @@
-const asyncAdd = async (a,b) => {
+const asyncAdd = async (a, b) => {
   if (typeof a !== 'number' || typeof b !== 'number') {
     return Promise.reject('Argumenty muszą mieć typ number!')
   }
   return new Promise((resolve, reject) => {
-    setTimeout(() =>{
-      resolve(a+b)
+    setTimeout(() => {
+      resolve(a + b)
     }, 100)
   })
 }
 
-async function addAll (...args) {
+async function addAll(...args) {
   let result = 0;
 
   for (let i = 0; i < args.length; i += 2) {
@@ -19,6 +19,18 @@ async function addAll (...args) {
   return result;
 }
 
-addAll(2,3,4,5).then(function(result) {
+function measureExecutionTime(callback) {
+  const startTime = performance.now();
+  callback();
+  const endTime = performance.now();
+  const elapsedTime = endTime - startTime;
+  console.log(`Execution time: ${elapsedTime}ms`);
+}
+
+addAll(2, 3, 4, 5).then(function (result) {
   console.log(result)
 })
+
+measureExecutionTime(() => {
+  addAll(51,613,612,32);
+});
