@@ -3,7 +3,7 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let balls = [];
-const threshold = 200;
+let threshold;
 
 function createBalls(numBalls) {
   balls = [];
@@ -62,9 +62,14 @@ function animate() {
   drawBalls();
 }
 
-const slider = document.querySelector('#slider');
-slider.addEventListener('input', () => {
-  createBalls(slider.value);
+const ballsSlider = document.querySelector('#num-balls-slider');
+ballsSlider.addEventListener('input', () => {
+  createBalls(ballsSlider.value);
+});
+
+const thresholdSlider = document.querySelector('#threshold-slider');
+thresholdSlider.addEventListener('input', () => {
+  threshold = thresholdSlider.value;
 });
 
 createBalls(20);
