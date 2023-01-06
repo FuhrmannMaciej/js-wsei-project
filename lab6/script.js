@@ -4,6 +4,7 @@ canvas.height = window.innerHeight;
 
 let balls = [];
 let threshold;
+let animating = false;
 
 function createBalls(numBalls) {
   balls = [];
@@ -57,9 +58,12 @@ function drawBalls() {
   });
 }
 
-function animate() {
-  requestAnimationFrame(animate);
-  drawBalls();
+function reset() {
+  animating = false;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const numBalls = document.getElementById('num-balls-slider').value;
+  createBalls(numBalls);
 }
 
 const ballsSlider = document.querySelector('#num-balls-slider');
@@ -71,6 +75,25 @@ const thresholdSlider = document.querySelector('#threshold-slider');
 thresholdSlider.addEventListener('input', () => {
   threshold = thresholdSlider.value;
 });
+
+const startButton = document.querySelector('#start-button');
+const resetButton = document.querySelector('#reset-button');
+
+startButton.addEventListener('click', () => {
+  if (!animating) {
+    animating = true;
+    animate();
+  }
+});
+
+resetButton.addEventListener('click', reset);
+
+function animate() {
+  if (animating) {
+    requestAnimationFrame(animate);
+    drawBalls();
+  }
+}
 
 createBalls(20);
 animate();
