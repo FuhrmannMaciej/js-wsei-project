@@ -6,8 +6,8 @@ let balls = [];
 
 function createBalls(numBalls) {
   for (let i = 0; i < numBalls; i++) {
-    const x = Math.random() * window.innerWidth;
-    const y = Math.random() * window.innerHeight;
+    const x = Math.random() * (canvas.width - 100) + 50;
+    const y = Math.random() * (canvas.height - 100) + 50;
 
     const dx = (Math.random() - 0.5) * 10;
     const dy = (Math.random() - 0.5) * 10;
@@ -30,6 +30,13 @@ function drawBalls() {
 
     ball.x += ball.dx;
     ball.y += ball.dy;
+
+    if (ball.x + 20 > canvas.width || ball.x - 20 < 0) {
+      ball.dx = -ball.dx;
+    }
+    if (ball.y + 20 > canvas.height || ball.y - 20 < 0) {
+      ball.dy = -ball.dy;
+    }
   });
 }
 
