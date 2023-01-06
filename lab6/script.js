@@ -1,6 +1,10 @@
 const canvas = document.querySelector('#canvas')
+const fpsSpan = document.querySelector('#fps');
+
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+
+let prevTime = performance.now();
 
 let balls = [];
 let threshold;
@@ -56,13 +60,20 @@ function drawBalls() {
       }
     });
   });
+
+  const currentTime = performance.now();
+  const elapsedTime = currentTime - prevTime;
+  prevTime = currentTime;
+  let currentFps = Math.round(1000 / elapsedTime);
+  fpsSpan.textContent = currentFps;
 }
 
 function reset() {
   animating = false;
   const ctx = canvas.getContext('2d');
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  const numBalls = document.getElementById('num-balls-slider').value;
+  const numBalls = document.getElementById('num-balls-slider').value = 20;
+  document.getElementById('threshold-slider').value = 200;
   createBalls(numBalls);
 }
 
