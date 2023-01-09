@@ -73,13 +73,14 @@ function reset() {
   const ctx = canvas.getContext('2d');
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   const numBalls = document.getElementById('num-balls-slider').value = 20;
-  document.getElementById('threshold-slider').value = 200;
+  document.getElementById('threshold-slider').value = canvas.width * 0.2;
   createBalls(numBalls);
 }
 
 const ballsSlider = document.querySelector('#num-balls-slider');
 ballsSlider.addEventListener('input', () => {
   createBalls(ballsSlider.value);
+  console.log(ballsSlider.value)
 });
 
 const thresholdSlider = document.querySelector('#threshold-slider');
@@ -108,3 +109,5 @@ function animate() {
 
 createBalls(20);
 animate();
+
+//Około 960 kulek można wyświetlić przy 60 fps i threshold 20% canvas width
