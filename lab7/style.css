@@ -1,0 +1,13 @@
+body {
+    background-color: rgb(167, 199, 167);
+}
+
+ul {
+    list-style-type: none;
+}
+
+.icon {
+    height: 50px;
+    width: 50px;
+    display: block;
+}
