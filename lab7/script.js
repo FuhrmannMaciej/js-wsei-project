@@ -1,6 +1,8 @@
+const searchBlock = document.querySelector("#search-block");
 const searchButton = document.querySelector("#search-button");
 const searchInput = document.querySelector("#search-input");
 const searchResult = document.querySelector("#search-result");
+const errorElement = document.querySelector("#error-element");
 
 const apiKey = "7ed801ab1538fc4324b7440c5c303204";
 
@@ -13,7 +15,7 @@ class City {
 }
 
 getCities().forEach((city) => {
-  fetchCityData(city.name);
+  fetchCityData(city.id ,city.name);
 });
 
 function getCities() {
@@ -28,47 +30,69 @@ searchButton.addEventListener("click", function () {
   findCity();
 });
 
+
 function addCity(cityName) {
   let cityObject = new City(Math.floor(Math.random() * 100000), cityName);
 
   const cities = getCities();
 
+  if (cities.length === 10) {
+    displayErrorMessage("No more than 10 weather data results can be added. Please delete one first");
+    return;
+  }
+
   cities.push(cityObject);
   saveCities(cities);
+  fetchCityData(cityObject.id , cityName);
 }
 
 function findCity() {
   const cityName = searchInput.value;
   addCity(cityName);
-
-  fetchCityData(cityName);
 }
 
-async function fetchCityData(cityName) {
+async function fetchCityData(id ,cityName) {
   try {
+    errorElement.innerHTML = "";
     const response = await fetch("http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=" + apiKey);
     const data = await response.json();
     console.log(data);
-    await getCurrentWeatherData(data);
+    await getCurrentWeatherData(id ,data);
   } catch (error) {
     console.error("Error:", error);
-    searchResult.innerHTML = "An error occurred. Please try again later.";
+    displayErrorMessage("An error occurred. Please enter correct city name.");
   }
 }
 
-async function getCurrentWeatherData(currentCityData) {
+function displayErrorMessage(errorMessage) {
+  errorElement.innerHTML = errorMessage;
+}
+
+async function getCurrentWeatherData(id, currentCityData) {
   try {
     const response = await fetch("https://api.openweathermap.org/data/2.5/weather?lat=" + currentCityData[0].lat + "&lon=" + currentCityData[0].lon + "&units=metric" + "&appid=" + apiKey);
     const data = await response.json();
     console.log(data);
-    await displayWeatherData(data, currentCityData);
+    await displayWeatherData(id ,data, currentCityData);
   } catch (error) {
     console.error("Error:", error);
   }
 }
 
-function displayWeatherData(currentWeatherData, currentCityData) {
+function displayWeatherData(id, currentWeatherData, currentCityData) {
   const itemElement = document.createElement("li");
+
+  itemElement.addEventListener("dblclick", () => {
+    const doDelete = confirm(
+      "Are you sure you wish to delete this weather data?"
+    );
+
+    if (doDelete) {
+      deleteCity(id, itemElement);
+    }
+  });
+
+
   const weatherElementHeader = document.createElement('div');
   const weatherElementHeaderDate = document.createElement('span');
   const weatherElementHeaderName = document.createElement('h2');
@@ -114,5 +138,12 @@ function displayWeatherData(currentWeatherData, currentCityData) {
 
 function getCurrentWeatherIcon(currentWeatherData) {
   return "http://openweathermap.org/img/wn/" + currentWeatherData.weather[0].icon + "@2x.png";
+}
+
+function deleteCity(id, element) {
+  const cities = getCities().filter((city) => city.id != id);
+
+  saveCities(cities);
+  searchResult.removeChild(element);
 }
 
