@@ -7,12 +7,48 @@ const apiKey = "7ed801ab1538fc4324b7440c5c303204";
 let currentCityData;
 let currentWeatherData;
 
+
+class City {
+
+  constructor(id, name) {
+    this.id = id
+    this.name = name
+  }
+}
+
+getCities().forEach((city) => {
+  fetchCityData(city.name);
+});
+
+function getCities() {
+  return JSON.parse(localStorage.getItem("cities") || "[]");
+}
+
+function saveCities(cities) {
+  localStorage.setItem("cities", JSON.stringify(cities));
+}
+
 searchButton.addEventListener("click", function () {
   findCity();
 });
 
+function addCity(cityName) {
+  let cityObject = new City (Math.floor(Math.random() * 100000), cityName);
+
+  const cities = getCities();
+
+  cities.push(cityObject);
+  saveCities(cities);
+}
+
 function findCity() {
   const cityName = searchInput.value;
+  addCity(cityName);
+
+  fetchCityData(cityName);
+}
+
+function fetchCityData(cityName) {
   fetch("http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=" + apiKey)
     .then(response => response.json())
     .then(data => {
@@ -26,6 +62,7 @@ function findCity() {
       searchResult.innerHTML = "An error occurred. Please try again later.";
     })
 }
+
 function getCurrentWeatherData() {
   fetch("https://api.openweathermap.org/data/2.5/weather?lat=" + currentCityData[0].lat + "&lon=" + currentCityData[0].lon + "&units=metric" + "&appid=" + apiKey)
     .then(response => response.json())
