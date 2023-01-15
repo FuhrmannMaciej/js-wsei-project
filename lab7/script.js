@@ -4,10 +4,6 @@ const searchResult = document.querySelector("#search-result");
 
 const apiKey = "7ed801ab1538fc4324b7440c5c303204";
 
-let currentCityData;
-let currentWeatherData;
-
-
 class City {
 
   constructor(id, name) {
@@ -33,7 +29,7 @@ searchButton.addEventListener("click", function () {
 });
 
 function addCity(cityName) {
-  let cityObject = new City (Math.floor(Math.random() * 100000), cityName);
+  let cityObject = new City(Math.floor(Math.random() * 100000), cityName);
 
   const cities = getCities();
 
@@ -48,32 +44,30 @@ function findCity() {
   fetchCityData(cityName);
 }
 
-function fetchCityData(cityName) {
-  fetch("http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=" + apiKey)
-    .then(response => response.json())
-    .then(data => {
-      currentCityData = data;
-      console.log(currentCityData);
-      searchResult.innerHTML = "";
-      getCurrentWeatherData();
-    })
-    .catch(error => {
-      console.error("Error:", error);
-      searchResult.innerHTML = "An error occurred. Please try again later.";
-    })
+async function fetchCityData(cityName) {
+  try {
+    const response = await fetch("http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=" + apiKey);
+    const data = await response.json();
+    console.log(data);
+    await getCurrentWeatherData(data);
+  } catch (error) {
+    console.error("Error:", error);
+    searchResult.innerHTML = "An error occurred. Please try again later.";
+  }
 }
 
-function getCurrentWeatherData() {
-  fetch("https://api.openweathermap.org/data/2.5/weather?lat=" + currentCityData[0].lat + "&lon=" + currentCityData[0].lon + "&units=metric" + "&appid=" + apiKey)
-    .then(response => response.json())
-    .then(data => {
-      currentWeatherData = data;
-      console.log(currentWeatherData);
-      displayWeatherData();
-    });
+async function getCurrentWeatherData(currentCityData) {
+  try {
+    const response = await fetch("https://api.openweathermap.org/data/2.5/weather?lat=" + currentCityData[0].lat + "&lon=" + currentCityData[0].lon + "&units=metric" + "&appid=" + apiKey);
+    const data = await response.json();
+    console.log(data);
+    await displayWeatherData(data, currentCityData);
+  } catch (error) {
+    console.error("Error:", error);
+  }
 }
 
-function displayWeatherData() {
+function displayWeatherData(currentWeatherData, currentCityData) {
   const itemElement = document.createElement("li");
   const weatherElementHeader = document.createElement('div');
   const weatherElementHeaderDate = document.createElement('span');
@@ -99,7 +93,7 @@ function displayWeatherData() {
   weatherElementDataTemperature.setAttribute('class', 'current-temp')
 
   weatherElementDataTemperatureIcon.setAttribute('class', "icon");
-  weatherElementDataTemperatureIcon.setAttribute('src', getCurrentWeatherIcon());
+  weatherElementDataTemperatureIcon.setAttribute('src', getCurrentWeatherIcon(currentWeatherData));
 
   weatherElementDataTemperatureValue.setAttribute('class', 'temp-value');
   weatherElementDataTemperatureValue.innerHTML = Math.round(currentWeatherData.main.temp) + "&deg;C"
@@ -118,7 +112,7 @@ function displayWeatherData() {
   searchResult.appendChild(itemElement);
 }
 
-function getCurrentWeatherIcon() {
+function getCurrentWeatherIcon(currentWeatherData) {
   return "http://openweathermap.org/img/wn/" + currentWeatherData.weather[0].icon + "@2x.png";
 }
 
