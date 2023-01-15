@@ -1,13 +1,32 @@
 body {
-    background-color: rgb(167, 199, 167);
+    background-color: rgb(185, 185, 185);
 }
 
 ul {
     list-style-type: none;
+    display: flex;
+}
+
+.list-element {
+    border: 2px solid black;
+    padding: 10px;
+    background: rgb(167, 199, 167);
 }
 
 .icon {
-    height: 50px;
-    width: 50px;
+    height: 60px;
+    width: 60px;
     display: block;
+}
+
+.temp-value {
+    font-size: 36px;
+    font-weight: 100;
+    margin-right: 8pt;
+}
+
+.current-temp {
+    display: flex;
+    flex-direction: row;
+    white-space: nowrap;
 }

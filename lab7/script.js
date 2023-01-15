@@ -53,14 +53,23 @@ function displayWeatherData() {
   weatherElementHeaderDate.innerHTML = today;
   weatherElementHeaderName.innerHTML = currentCityData[0].name + ", " + currentCityData[0].country;
 
+  itemElement.setAttribute('class', 'list-element')
+
   weatherElementHeader.appendChild(weatherElementHeaderDate);
   weatherElementHeader.appendChild(weatherElementHeaderName);
   itemElement.appendChild(weatherElementHeader);
 
+  weatherElementDataTemperature.setAttribute('class', 'current-temp')
+
   weatherElementDataTemperatureIcon.setAttribute('class', "icon");
   weatherElementDataTemperatureIcon.setAttribute('src', getCurrentWeatherIcon());
 
-  weatherElementDataTemperatureValue.innerHTML = currentWeatherData.main.temp + "&deg;C"
+  weatherElementDataTemperatureValue.setAttribute('class', 'temp-value');
+  weatherElementDataTemperatureValue.innerHTML = Math.round(currentWeatherData.main.temp) + "&deg;C"
+
+  weatherElementDataDescription.setAttribute('class', 'temp-description')
+  weatherElementDataDescription.innerHTML = "Feels like " + Math.round(currentWeatherData.main.feels_like) + "&deg;C , " + currentWeatherData.weather[0].description
+    + "<br> Humidity: " + currentWeatherData.main.humidity + " % , <br> Pressure: " + currentWeatherData.main.pressure + "hPa";
 
   weatherElementDataTemperature.appendChild(weatherElementDataTemperatureIcon);
   weatherElementDataTemperature.appendChild(weatherElementDataTemperatureValue);
@@ -72,7 +81,7 @@ function displayWeatherData() {
   searchResult.appendChild(itemElement);
 }
 
-function getCurrentWeatherIcon () {
+function getCurrentWeatherIcon() {
   return "http://openweathermap.org/img/wn/" + currentWeatherData.weather[0].icon + "@2x.png";
 }
 
